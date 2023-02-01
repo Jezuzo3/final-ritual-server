@@ -1,0 +1,15 @@
+{
+  "name": "final-ritual-server",
+  "version": "1.0.0",
+  "description": "The Final Ritual Server",
+  "main": "index.js",
+  "scripts": {
+    "test": "echo \"Error: no test specified\" && exit 1"
+  },
+  "keywords": [
+    "Chaotic",
+    "Chronicles"
+  ],
+  "author": "DAW2 Epic Team",
+  "license": "ISC"
+}
