@@ -6,7 +6,7 @@ const socketIO = require('socket.io');
 const bodyParser = require('body-parser');
 const mongoose = require('mongoose');
 
-const mongodbRoute = process.env.DBLOCAL;
+const mongodbRoute = process.env.DBSTAGING;
 
 const userRouter = require('./src/routes/userRoutes');
 
