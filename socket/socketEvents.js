@@ -1,21 +1,63 @@
+const userService = require('../src/services/userService');
+const server = require('../index');
+const io = server.socketIO;
+const { NEW_CONNECTION , DISCONNECT, UPDATE_ONCRYPT} = require('../src/constants');
+
 events = (socket) => {
   
     console.log({ Clientsocket: socket.id });
-    socket.emit("new_user", socket.id);
-  
-    
-    // TEST BROADCAST
-    socket.on('test_broadcast', async (data) => {
+
+    socket.on(NEW_CONNECTION, async (data) => {
       try {
-        socket.broadcast.emit('test_broadcast', data);
+        data.body = {
+          idSocket: socket.id
+        }
+
+        const updatedUser = await userService.updateUserByEmail(
+          data.email,
+          data.body
+        )
       } catch (error) {
-        console.log(error);
-        socket.emit('test_broadcastError', error);
+        throw error;
+      }
+    });
+
+    socket.on(UPDATE_ONCRYPT, async (data) => {
+      try {
+        data.body = {
+          onCrypt: true
+        }
+        const updatedUser = await userService.updateUserByEmail(
+          data.email,
+          data.body
+        );
+
+        const idSockets = [socket.id, updatedUser.idSocket];
+        const villainIdSocket = await userService.getIdSocketByRol("villain");
+        const mortimerIdSocket = await userService.getIdSocketByRol("mortimer");
+        idSockets.push(villainIdSocket, mortimerIdSocket);
+        
+        io.to(idSockets).emit(UPDATE_ONCRYPT, updatedUser);
+      } catch (error) {
+        throw error;
       }
     });
   
-    socket.on('disconnect', () => {
-      console.log('Client disconnected: ', socket.id);      
+    socket.on(DISCONNECT, async () => {
+      console.log(`Client disconnected: ${socket.id}`);
+      try {
+        const changes = {
+          onCrypt: false,
+          idSocket: null
+        };
+
+        const updatedUser = await userService.updateUserByIdSocket(
+          socket.id,
+          changes
+        )
+      } catch (error) {
+        throw error;
+      }
     });
   
   }
