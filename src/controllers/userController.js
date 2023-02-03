@@ -27,6 +27,10 @@ const loginUser = async (req, res) => {
 
     try {
         const createdUser = await userService.loginUser(newUser);
+        if (createdUser.rol === "mortimer" || createdUser.rol === "villain") {
+            const acolytes = await userService.getAcolytes();
+            return res.status(201).send({ status: "OK", data: acolytes });
+        }
         res.status(201).send({ status: "OK", data: createdUser });
     } catch (error) {
         res.status(error?.status || 500).send({
