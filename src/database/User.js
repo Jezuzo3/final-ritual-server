@@ -15,6 +15,16 @@ const loginUser = async (newUser) => {
     }
 };
 
+const getAcolytes = async () => {
+    try {
+        const acolytes = await User.find({ rol: "acolyte" });
+        return acolytes;
+    } catch (error) {
+        throw error;
+    }
+};
+
 module.exports = {
-    loginUser
+    loginUser,
+    getAcolytes
 }

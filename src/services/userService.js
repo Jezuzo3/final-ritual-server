@@ -7,8 +7,18 @@ const loginUser = async (newUser) => {
     } catch (error) {
         throw error;
     }
-}
+};
+
+const getAcolytes = async () => {
+    try {
+        const acolytes = await User.getAcolytes();
+        return acolytes;
+    } catch (error) {
+        throw error;
+    }
+};
 
 module.exports = {
-    loginUser
+    loginUser,
+    getAcolytes
 }
