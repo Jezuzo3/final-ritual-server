@@ -1,7 +1,7 @@
 const userService = require('../src/services/userService');
 const server = require('../index');
 const io = server.socketIO;
-const { NEW_CONNECTION , DISCONNECT, UPDATE_ONCRYPT} = require('../src/constants');
+const { NEW_CONNECTION , DISCONNECT, UPDATE_ONCRYPT,INVOKE_CIRCLE} = require('../src/constants');
 
 events = (socket) => {
   
@@ -55,6 +55,15 @@ events = (socket) => {
           socket.id,
           changes
         )
+      } catch (error) {
+        throw error;
+      }
+    });
+
+    //Socket emmit invocar circulo
+    socket.on(INVOKE_CIRCLE, async () => {
+      try {
+        io.emmit(INVOKE_CIRCLE, {missionStatus:"INVOKE_CIRCLE"});
       } catch (error) {
         throw error;
       }
