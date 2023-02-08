@@ -13,7 +13,7 @@ RUN volta install node@${NODE_VERSION}
 RUN mkdir /app
 WORKDIR /app
 
-ENV NODE_ENV production
+ENV NODE_ENV staging
 
 COPY . .
 
@@ -26,7 +26,7 @@ COPY --from=builder /root/.volta /root/.volta
 COPY --from=builder /app /app
 
 WORKDIR /app
-ENV NODE_ENV production
+ENV NODE_ENV staging
 ENV PATH /root/.volta/bin:$PATH
 
 CMD [ "npm", "run", "start" ]

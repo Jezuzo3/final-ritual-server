@@ -1,4 +1,4 @@
-app = "final-ritual-server-production"
+app = "final-ritual-server-staging"
 kill_signal = "SIGINT"
 kill_timeout = 5
 processes = []
