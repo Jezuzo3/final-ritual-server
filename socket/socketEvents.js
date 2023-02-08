@@ -274,7 +274,7 @@ events = (socket) => {
     console.log(`Client disconnected: ${socket.id}`);
     try {
       const changes = {
-        onCrypt: false,
+        userState: null,
         idSocket: null,
       };
 
