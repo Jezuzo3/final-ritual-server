@@ -25,7 +25,7 @@ const loginUser = async (req, res) => {
         : body.claims.email === "classcraft.daw2@aeg.eus"
         ? "joshua"
         : "acolyte",
-    onCrypt: false,
+    userState: null,
     idSocket: null,
   };
 
