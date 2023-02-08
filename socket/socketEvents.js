@@ -126,7 +126,11 @@ events = (socket) => {
           finished = true;
           const message = `Round ${counter}: The villain wins and fucks up the summoning`;
           console.log(message);
-          io.emit(constants.FINAL_BATTLE_RESULT, message);
+          const resObj = {
+            missionStatus: "villain_wins",
+            message,
+          };
+          io.emit(constants.FINAL_BATTLE_RESULT, resObj);
         } else if (difference <= -50) {
           finished = true;
           const message = `Round ${counter}: Morimer wins! FATALITY!!!`;
