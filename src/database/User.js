@@ -26,10 +26,6 @@ const getAcolytes = async () => {
 
 const updateUserByEmail = async (email, changes) => {
   try {
-    const user = await User.findOne({ email: email });
-    if (!user) {
-      return ERROR404;
-    }
     const updatedUser = await User.findOneAndUpdate(
       { email: email },
       { $set: changes },
