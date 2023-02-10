@@ -58,16 +58,27 @@ events = (socket) => {
   socket.on(constants.VILLAIN_SABOTAGE, async () => {
     try {
       const acolytes = await userService.getAcolytes();
-      const randNumber = Math.floor(Math.random() * acolytes.length);
-      const acolyte = acolytes[randNumber];
+      const sabotagedAcolytes = [];
+      const sabotagedIdSockets = [];
+
+      for (let i = 0; i < 3; i++) {
+        const randNumber = Math.floor(Math.random() * acolytes.length);
+        const acolyte = acolytes[randNumber];
+        sabotagedAcolytes.push(acolyte);
+        sabotagedIdSockets.push(acolyte.idSocket);
+        acolytes.splice(randNumber, 1);
+      }
 
       const villainIdSocket = await userService.getIdSocketByRol("villain");
       const mortimerIdSocket = await userService.getIdSocketByRol("mortimer");
 
-      const idSockets = [...villainIdSocket, ...mortimerIdSocket];
-      idSockets.push(acolyte.idSocket);
+      const idSockets = [
+        ...villainIdSocket,
+        ...mortimerIdSocket,
+        ...sabotagedIdSockets,
+      ];
 
-      io.to(idSockets).emit(constants.VILLAIN_SABOTAGE, acolyte);
+      io.to(idSockets).emit(constants.VILLAIN_SABOTAGE, sabotagedAcolytes);
     } catch (error) {
       throw error;
     }
