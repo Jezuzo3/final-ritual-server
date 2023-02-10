@@ -41,10 +41,12 @@ events = (socket) => {
         data.email,
         data.body
       );
-      const idSockets = [updatedUser.idSocket];
+
       const villainIdSocket = await userService.getIdSocketByRol("villain");
       const mortimerIdSocket = await userService.getIdSocketByRol("mortimer");
-      idSockets.push(villainIdSocket, mortimerIdSocket);
+
+      const idSockets = [...villainIdSocket, ...mortimerIdSocket];
+      idSockets.push(updatedUser.idSocket);
 
       io.to(idSockets).emit(constants.CHANGE_USER_STATUS, updatedUser);
     } catch (error) {
@@ -58,8 +60,12 @@ events = (socket) => {
       const acolytes = await userService.getAcolytes();
       const randNumber = Math.floor(Math.random() * acolytes.length);
       const acolyte = acolytes[randNumber];
+
+      const villainIdSocket = await userService.getIdSocketByRol("villain");
       const mortimerIdSocket = await userService.getIdSocketByRol("mortimer");
-      const idSockets = [socket.id, acolyte.idSocket, mortimerIdSocket];
+
+      const idSockets = [...villainIdSocket, ...mortimerIdSocket];
+      idSockets.push(acolyte.idSocket);
 
       io.to(idSockets).emit(constants.VILLAIN_SABOTAGE, acolyte);
     } catch (error) {

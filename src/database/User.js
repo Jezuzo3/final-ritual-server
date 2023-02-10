@@ -39,9 +39,11 @@ const updateUserByEmail = async (email, changes) => {
 
 const getIdSocketByRol = async (rol) => {
   try {
-    const user = await User.findOne({ rol: rol });
-    const idSocket = user.idSocket;
-    return idSocket;
+    const idSockets = [];
+    (await User.find({ rol: rol })).forEach((user) => {
+      idSockets.push(user.idSocket);
+    });
+    return idSockets;
   } catch (error) {
     throw error;
   }
