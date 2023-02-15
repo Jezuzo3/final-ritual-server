@@ -95,7 +95,7 @@ events = (socket) => {
       let finished = false;
       let counter = 1;
       const delay = (ms) => new Promise((res) => setTimeout(res, ms));
-      await delay(5000);
+      await delay(10000);
       do {
         const battle = calcBattle();
         const difference = battle[0].attackValue - battle[1].attackValue;
@@ -122,7 +122,7 @@ events = (socket) => {
           console.log(message);
           io.emit(constants.MORTIFYING_BATTLE, message);
           counter++;
-          await delay(5000);
+          await delay(10000);
         }
       } while (!finished);
     } catch (error) {
