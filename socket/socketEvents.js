@@ -95,11 +95,11 @@ events = (socket) => {
       let finished = false;
       let counter = 1;
       const delay = (ms) => new Promise((res) => setTimeout(res, ms));
-      await delay(10000);
+      await delay(8000);
       do {
         const battle = calcBattle();
         const difference = battle[0].attackValue - battle[1].attackValue;
-        if (difference >= 50) {
+        if (difference >= 60) {
           finished = true;
           const message = `Round ${counter}: The villain wins and fucks up the summoning`;
           console.log(message);
@@ -108,7 +108,7 @@ events = (socket) => {
             message,
           };
           io.emit(constants.FINAL_BATTLE_RESULT, resObj);
-        } else if (difference <= -50) {
+        } else if (difference <= -60) {
           finished = true;
           const message = `Round ${counter}: Morimer wins! FATALITY!!!`;
           console.log(message);
@@ -122,7 +122,7 @@ events = (socket) => {
           console.log(message);
           io.emit(constants.MORTIFYING_BATTLE, message);
           counter++;
-          await delay(10000);
+          await delay(8000);
         }
       } while (!finished);
     } catch (error) {
